@@ -169,6 +169,7 @@ def actor(
     """
     This is the actor loop, which runs when "--actor" is set to True.
     """
+    agent.eval()
     # Create datastore dict with both buffers
     datastore_dict = {
         "actor_env": data_store,
@@ -307,6 +308,7 @@ def learner(
     """
     The learner loop, which runs when "--learner" is set to True.
     """
+    agent.train()
     # set up wandb and logging
     wandb_logger = make_wandb_logger(
         project="hilserl-torch",

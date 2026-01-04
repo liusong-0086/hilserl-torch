@@ -71,6 +71,7 @@ class PreTrainedResNetEncoder(nn.Module):
             if freeze_backbone:
                 for param in self.backbone.parameters():
                     param.requires_grad = False
+                self.backbone.eval()
         
         # Get output channels by doing a forward pass
         with torch.no_grad():
@@ -159,6 +160,12 @@ class PreTrainedResNetEncoder(nn.Module):
             x = self.bottleneck(x)
         
         return x
+
+    def train(self, mode: bool = True):
+        super().train(mode)
+        if self.freeze_backbone:
+            self.backbone.eval()
+        return self
 
 
 def create_encoder(
