@@ -323,7 +323,6 @@ class SACAgent:
         augmentation_function: Optional[Callable] = None,
         reward_bias: float = 0.0,
         image_size: Tuple[int, int] = (128, 128),
-        device: str = "cuda",
         **kwargs,
     ) -> "SACAgent":
 
@@ -344,7 +343,6 @@ class SACAgent:
         policy_network_kwargs = {**policy_network_kwargs, "activate_final": True}
         critic_network_kwargs = {**critic_network_kwargs, "activate_final": True}
         
-        device = torch.device(device)
         action_dim = sample_action.shape[-1]
         
         encoders = create_encoder(
@@ -403,6 +401,7 @@ class SACAgent:
             critics.append(Critic(network=critic_network))
         
         critic = CriticEnsemble(critics)
+        critic_target = deepcopy(critic)
         
         # Create temperature (Lagrange multiplier)
         temp = GeqLagrangeMultiplier(
@@ -426,12 +425,6 @@ class SACAgent:
             "augmentation_function": augmentation_function,
             "reward_bias": reward_bias,
         }
-        
-        # Move to device
-        actor = actor.to(device)
-        critic = critic.to(device)
-        critic_target = deepcopy(critic).to(device)
-        temp = temp.to(device)
     
         # Create optimizers
         temp_optimizer = torch.optim.Adam(temp.parameters(), lr=3e-4)

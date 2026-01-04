@@ -41,7 +41,7 @@ from pynput import keyboard
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string("env", "PandaVVS-v0", "Name of environment.")
+flags.DEFINE_string("env", "PandaPickCubeVision-v0", "Name of environment.")
 flags.DEFINE_string("agent", "drq", "Name of agent.")
 flags.DEFINE_string("exp_name", None, "Name of the experiment for wandb logging.")
 flags.DEFINE_integer("max_traj_length", 100, "Maximum length of trajectory.")
@@ -477,8 +477,7 @@ def main(_):
         sample_action=env.action_space.sample(),
         image_keys=image_keys,
         encoder_type=FLAGS.encoder_type,
-        discount=0.97,
-        device=device,
+        discount=0.97
     )
 
     agent = agent.to(device)

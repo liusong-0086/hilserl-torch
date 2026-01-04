@@ -1,8 +1,8 @@
-from franka_env.envs.wrappers import (
+from serl_robot_infra.robot_env.envs.wrappers import (
     Quat2EulerWrapper,
     GripperPenaltyWrapper,
 )
-from franka_env.envs.relative_env import RelativeFrame
+from serl_robot_infra.robot_env.envs.relative_env import RelativeFrame
 from serl_launcher.wrappers.serl_obs_wrappers import SERLObsWrapper
 from serl_launcher.wrappers.chunking import ChunkingWrapper
 
